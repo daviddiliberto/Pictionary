@@ -1,6 +1,6 @@
 {
 	"name": "Pictionary",
-	"version": "0.1.2-8",
+	"version": "0.1.2-10",
 	"description": "Enjoyable Pictionary game working with Node.js and Socket.io",
 	"keywords": [
 		"pictionary",
