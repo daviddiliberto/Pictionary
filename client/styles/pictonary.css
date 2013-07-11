@@ -6,7 +6,7 @@ body
 {
 	background:#fff;
 	font-family:'helvetica', arial, helvetica;
-	font-size:12px;
+	font-size:20px;
 }
 
 #main
@@ -51,15 +51,16 @@ body
 
 #people
 {
-	background:#fff;
-	border:1px solid #ccc;
-	width:180px;
-	height:200px;
-	overflow: auto;
-	overflow-x: hidden;
-	padding-top:5px;
-	padding-left:10px;
-	padding-bottom:5px;
+    left: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding-bottom: 5px;
+    padding-left: 10px;
+    padding-top: 5px;
+    position: absolute;
+    top: 0;
+    width: 180px;
+    font-size: 20px;
 }
 
 #people p
@@ -86,13 +87,13 @@ body
 /* -------------------------- */
 
 #secondpanel
-{
+{	
+	position:absolute;
 	background:#fff;
-	width:500px;
-	height:500px;
 	border-radius:5px;
-	margin-left:30px;
-	float:left;
+	left:0;
+	top:0;
+
 }
 
 #canvas
@@ -108,22 +109,23 @@ body
 
 #thirdpanel
 {
-	margin-left:30px;
-	float:left;
-	width:320px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 300px;
+    height: 100%;
 }
 
 #chatcontent
 {
-	background:#fff;
-	border:1px solid #ccc;
-	width:300px;
-	height:400px;
-	overflow: auto;
-	overflow-x: hidden;
-	padding-top:5px;
-	padding-left:10px;
-	padding-bottom:5px;
+    background: none repeat scroll 0 0 #FFFFFF;
+    height: 90%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding-bottom: 5px;
+    padding-left: 10px;
+    padding-top: 5px;
+    width: 300px;
 }
 
 #chatcontent p
@@ -135,23 +137,26 @@ body
 
 #chatnick
 {
-	border-radius:2px;
-	border:1px solid #ccc;
-	margin-top:10px;
-	padding:5px;
-	width:80px;
-	float:left;
+    border: medium none;
+    border-radius: 3px 3px 3px 3px;
+    float: left;
+    font-family: 'helvetica', arial, sans-serif;
+    margin-top: 10px;
+    padding: 5px;
+    width: 80px;
+    font-size: 16px;
 }
 
 #chatinput
 {
-	border-radius:2px;
-	border:1px solid #ccc;
-	margin-top:10px;
-	margin-left:10px;
-	padding:5px;
-	width:200px;
-	float:left;
+    border: medium none;
+    border-radius: 3px 3px 3px 3px;
+    float: left;
+    font-family: 'helvetica',arial,sans-serif;
+    font-size: 16px;
+    margin-left: 10px;
+    margin-top: 10px;
+    padding: 5px;
 }
 
 #clearchat,

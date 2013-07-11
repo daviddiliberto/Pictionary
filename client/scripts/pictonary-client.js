@@ -109,12 +109,13 @@ $(document).ready(function() {
 		lastpoint = null,
 		painting = false,
 		myturn = false;
+
 	
 	socket.on('draw', draw);
 	
 	function draw(line) {
 		context.lineJoin = 'round';
-		context.lineWidth = 2;
+		context.lineWidth = 1;
 		context.strokeStyle = line.color;
 		context.beginPath();
 		
@@ -135,6 +136,7 @@ $(document).ready(function() {
 	});
 	
 	canvas.mousedown(function(e) {
+		console.log(myturn);
 		if(myturn) {
 			painting = true;
 			var newpoint = { x: e.pageX - this.offsetLeft, y: e.pageY - this.offsetTop},
@@ -143,6 +145,9 @@ $(document).ready(function() {
 			draw(line);
 			lastpoint = newpoint;
 			socket.emit('draw', line);
+		}
+		else{
+			console.log('i shouldnt be drawing');
 		}
 	});
 	
@@ -167,7 +172,8 @@ $(document).ready(function() {
 	
 	socket.on('drawCanvas', function(canvasToDraw) {
 		if(canvasToDraw) {
-			canvas.width(canvas.width());
+			canvas[0].width = $(window).width();
+			canvas[0].height = $(window).height();		
 			context.lineJoin = 'round';
 			context.lineWidth = 2;
 			
@@ -210,11 +216,15 @@ $(document).ready(function() {
 	
 	var readytodraw = $('#readytodraw'),
 		myword = '',
-		timeleft = 120,
+		timeleft = 5,
 		drawingTimer = null;
+
 	
 	readytodraw.click(function() {
 		socket.emit('readyToDraw');
+		myturn = false;
+		canvas.css('background-color', '#ccc');
+		/* var t=setTimeout(function(){alert("Pencils Down!")},5000) */
 	});
 	
 	socket.on('youDraw', function(word) {
@@ -230,20 +240,20 @@ $(document).ready(function() {
 	
 	socket.on('firendDraw', function(msg) {
 		if(!myturn) {
-			status.text('status: online | ' + msg.nick + ' is drawing right now!');
+			status.text( msg.nick + ' is drawing right now!');
 		}
 		
 		chatcontent.append('<p>&raquo; <span style="color:' + msg.color + '">' + msg.nick + '</span> is drawing!</p>');
 		chatScrollDown();
 	});
-	
+
 	socket.on('youCanDraw', function(msg) {
 		if(myturn) {
 			myturn = false;
 			canvas.css('background-color', '#ccc');
-			status.text('status: online | Click Ready to draw! button to start drawing');
+			status.text('Click Ready to draw! button to start drawing');
 		}
-		chatcontent.append('<p>Click <strong>Ready to draw!</strong> button to draw.</p>');
+		chatcontent.append('Click <strong>Ready to draw!</strong> button to draw.');
 		chatScrollDown();
 	});
 	
@@ -251,10 +261,11 @@ $(document).ready(function() {
 		chatcontent.append('<p>&raquo; <span style="color:' + msg.color + '">' + msg.nick + '</span> guessed the word (<strong>' + msg.text + '</strong>) !!!</p>');
 		chatScrollDown();
 		if(myturn = true) {
-			timeleft = 120;
+			timeleft = 30;
 			clearInterval(drawingTimer);
 			drawingTimer = null;
 			readytodraw.prop('value', 'Ready to draw!');
+
 		}
 	});
 	
@@ -262,19 +273,18 @@ $(document).ready(function() {
 		chatcontent.append('<p>&raquo; The turn is over! The word was <strong>' + msg.text + '</strong>.</p>');
 		chatScrollDown();
 		if(myturn = true) {
-			timeleft = 120;
+			timeleft = 30;
 			clearInterval(drawingTimer);
 			drawingTimer = null;
 			readytodraw.prop('value', 'Ready to draw!');
 		}
 	});
-	
 	function timerTick() {
 		if(timeleft > 0) {
 			timeleft--;
 			readytodraw.prop('value', 'Pass (' + timeleft + ')');
 		} else {
-			timeleft = 120;
+			timeleft = 5;
 			clearInterval(drawingTimer);
 			drawingTimer = null;
 			readytodraw.prop('value', 'Ready to draw!');
